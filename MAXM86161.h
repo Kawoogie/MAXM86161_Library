@@ -172,5 +172,3 @@ class MAXM86161 {
 #define REG_FIFO_DATA_MASK  0x07FFFF
 #define REG_FIFO_RES        19
 #define REG_FIFO_TAG_MASK   0x1F
-
-#endif
