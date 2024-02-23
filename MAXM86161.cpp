@@ -129,7 +129,7 @@ int MAXM86161::_read_from_reg(int address, int* data){
         return status;
         }
 
-    data = response;
+    data = &response;
     // serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);
     return status;
 }
