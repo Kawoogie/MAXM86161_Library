@@ -21,6 +21,7 @@ MAXM86161::~MAXM86161(void)
 // take data
 int MAXM86161::init(void)
 {
+    char read_value;
     // Use function to do software reset
     _write_to_reg(REG_SYSTEM_CONTROL, 0x09);
 
@@ -32,10 +33,10 @@ int MAXM86161::init(void)
     ThisThread::sleep_for(2ms);
 
     // Clear Interrupt 1 by reading
-    _read_from_reg(REG_IRQ_STATUS1);
+    _read_from_reg(REG_IRQ_STATUS1, &read_value);
 
     // Clear Interrupt 2 by reading
-    _read_from_reg(REG_IRQ_STATUS2);
+    _read_from_reg(REG_IRQ_STATUS2, &read_value);
 
     // Set integration time and ADC range with ALC and ADD
     _write_to_reg(REG_PPG_CONFIG1, 0x0F);
