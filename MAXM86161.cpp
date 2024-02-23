@@ -133,7 +133,6 @@ int MAM86161::read(int &red, int &green, int &ir)
     int write_position;
     int number_of_bytes;
     int databuffer[128*BYTES_PER_CH];
-    char rsp[256];
     int ambient;
 
     // int number_of_bytes = 0;
@@ -154,13 +153,11 @@ int MAM86161::read(int &red, int &green, int &ir)
             _i2cbus.read(PPG_ADDR, databuffer, number_of_bytes);
 
             // Parse the FIFO data
-            int i = 0;
-            for (i = 0; i < number_of_bytes; i++){
-                green = (databuffer[0] << 16) | (databuffer[1] << 8) | (databuffer[2]);
-                red = (databuffer[3] << 16) | (databuffer[4] << 8) | (databuffer[5]);
-                ir = (databuffer[6] << 16) | (databuffer[7] << 8) | (databuffer[8]);
-                ambient = (databuffer[9] << 16) | (databuffer[10] << 8) | (databuffer[11]);
-            }
+            green = (databuffer[0] << 16) | (databuffer[1] << 8) | (databuffer[2]);
+            red = (databuffer[3] << 16) | (databuffer[4] << 8) | (databuffer[5]);
+            ir = (databuffer[6] << 16) | (databuffer[7] << 8) | (databuffer[8]);
+            ambient = (databuffer[9] << 16) | (databuffer[10] << 8) | (databuffer[11]);
+        
 
 
         }
