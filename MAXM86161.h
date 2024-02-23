@@ -7,34 +7,36 @@
  * @code
  * #include "mbed.h"
  * #include "MAXM86161.h"
- * #include "USBSerial.h"  // For communication via the onboard USB port
+ * #include "max32630fthr.h"
  * 
+ * // Enable J1-pin2, 3.3V and set GPIO to 3.3v
+ * MAX32630FTHR pegasus(MAX32630FTHR::VIO_1V8);
  * 
- * // Start serial communication
- * USBSerial serial;
+ * // Define I2C connection
+ * I2C ppg_i2c(P3_4, P3_5); 
  * 
- * // Create the Sensor_Raw object
- * Sensor_Raw sensor_hub;
+ * // Define the PPG Sensor
+ * MAXM86161 ppg(ppg_i2c);
  * 
  * int main()
  * {   
- *     // Initialize the sensor hub with default values
- *     sensor_hub.init_sh_raw();
+ *     // Initialize the sensor with default values
+ *     ppg.init();
  *     
- *     // Set the data interrogation rate to 50 Hz.
- *     sensor_hub.set_sample_rate(50);
  *     
- *     // Set the drive current for all 3 LEDs 
- *     sensor_hub.set_led_current(0x12);
- *  
- *     // Variables to hold the ppg data
- *     int red_ppg, green_ppg, ir_ppg;
- * 
+ *      
  *     while (true) {
- *       // Read the data at a rate of 50 Hz and output the information via serial
- *       sensor_hub.read_sh_fifo(&red_ppg, &green_ppg, &ir_ppg);
- *       serial.printf("%d,%d,%d,\n\r", red_ppg, green_ppg, ir_ppg);
- *       ThisThread::sleep_for(20ms);
+ *       // start the device
+ *       ppg.start();
+ *       
+ *       // Collect data for this amount of time
+ *       ThisThread::sleep_for(2000ms);
+ * 
+ *      // Stop the device
+ *      ppg.stop();
+ * 
+ *      // Wait with the device off
+ *      ThisThread::sleep_for(1000ms);
     }
  * }
  * @endcode
@@ -42,8 +44,6 @@
 */
 // #ifdef __MAXM86161_H_
 // #define __MAXM86161_H_
-
-
 #include "mbed.h"
 #include <stdint.h>
 
@@ -81,24 +81,21 @@ class MAXM86161 {
     int set_ppg_tint(int time);
 
     // Setting adjustments
+    /** @brief Set the ALC on */  
     int alc_on(void);
+    /** @brief Set the ALC off */ 
     int alc_off(void);
+    /** @brief Set the picket fence detection on */ 
     int picket_on(void);
+    /** @brief Set the picket fence detection off */ 
     int picket_off(void);
 
 
     // void read_fifo(int* red, int* green, int* ir);
-    // void set_led_current(char brightness);
-    // void set_led_red_current(char brightness);
-    // void set_led_green_current(char brightness);
-    // void set_led_ir_current(char brightness);
     // char read_package_temp();
 
     // Functions not yet working
     // char read_status();
-
-
-
 
     private:
     I2C & _i2cbus;
@@ -109,17 +106,16 @@ class MAXM86161 {
     int _write_to_reg(int address, int value);
     int _set_one_bit(int current_bits, int position);
     int _clear_one_bit(int current_bits, int position);
+    int _set_multiple_bits(int current_bits, int mask, int new_value, int position);
 
 };
 
-
-
+/*******************************************************************************/
 // I2C address of the PPG sensor
 #define PPG_ADDR 0xC4
 
 // Part ID of the MAXM86161
 #define PPG_PART_ID 0x36
-
 
 // Bit positions.
 #define POS_START_STOP  1  
@@ -133,10 +129,13 @@ class MAXM86161 {
 #define POS_SMP_AVG 0
 
 
+/*******************************************************************************/
 // Bit masks.
 #define MASK_SMP_AVE 0b00000111  //Register 0x12
 #define MASK_PPG_SR 0b11111000  // Register 0x12
 #define MASK_PPG_TINT_WRITE 0b11111100  // Register 0x11
+
+
 /*******************************************************************************
  ************************** Maxm86161 I2C Registers *******************************
  ******************************************************************************/
