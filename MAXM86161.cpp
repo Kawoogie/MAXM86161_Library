@@ -10,7 +10,8 @@ _i2cbus = i2c
     // Empty block
 }
 
-MAXM86161::~MAXM86161(void){
+MAXM86161::~MAXM86161(void)
+{
     // Empty block
 }
 
@@ -116,18 +117,18 @@ int MAXM86161::_read_from_reg(int address, int* data){
     cmd[0] = address;
     status = _i2cbus.write(SH_ADDR, cmd, 1, true);
     if(status !=0) {
-        serial_pc.printf("Failed to write register address %#X during read.\n", address);
+        // serial_pc.printf("Failed to write register address %#X during read.\n", address);
         return status;
         }
     
     status = _i2cbus.read(PPG_ADDR, rsp, 1);
     if(status !=0){        
-        serial_pc.printf("Failed to read register %#X value during read.\n", address);
+        // serial_pc.printf("Failed to read register %#X value during read.\n", address);
         return status;
         }
 
     data = rsp[0];
-    serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);
+    // serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);
     return status;
 }
 
@@ -139,7 +140,9 @@ int MAXM86161::_write_to_reg(int address, int* value) {
     int status;
     cmd[0] = address; cmd[1] = value;
     status = _i2cbus.write(PPG_ADDR, cmd, 2);
-    if(status !=0) {serial_pc.printf("write error %#x\n", address);}
+    if(status !=0) {
+        // serial_pc.printf("write error %#x\n", address);
+        }
     else {
     // mfio = 1; thread_sleep_for(2); mfio = 0; wait_us(300);
     // ppg_i2c.read(SH_ADDR, rsp, 1);
@@ -148,7 +151,7 @@ int MAXM86161::_write_to_reg(int address, int* value) {
     // wait_us(300);
     _i2cbus.read(PPG_ADDR, rsp, 1);
     // wait_us(300);
-    serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);}
+    // serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);}
     return status;
 }
 

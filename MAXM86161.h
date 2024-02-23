@@ -78,12 +78,10 @@ class MAXM86161 {
     InterruptIn irq_pin;
     I2C & _i2cbus;
 
-    void _set_led_sequence(char sequence);
+    // void _set_led_sequence(char sequence);
 
-    int _read_from_reg(int address);
-    int _write_to_reg(int address, int value);
-    int _get_current_reg_values(char * values);
-
+    int _read_from_reg(int address, int* data);
+    int _write_to_reg(int address, int* value);
 
 };
 
