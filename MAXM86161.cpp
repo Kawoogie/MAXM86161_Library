@@ -126,6 +126,51 @@ int MAXM86161::stop(void)
     return status;
 }
 
+int MAM86161::read(int &red, int &green, int &ir)
+{
+    int status;
+    int read_position;
+    int write_position;
+    int number_of_bytes;
+    int databuffer[128*BYTES_PER_CH];
+    char rsp[256];
+    int ambient;
+
+    // int number_of_bytes = 0;
+
+    status = _read_from_reg(REG_FIFO_READ_PTR, read_position);
+    if (status == 0){
+        status = _read_from_reg(REG_FIFO_WRITE_PTR, write_position);
+        if (status == 0){
+            if (write_position > read_position){
+                number_of_bytes = ((write_position - read_position) * (BYTES_PER_CH * LED_NUM));
+            }
+            else{
+                number_of_bytes = (((FIFO_SIZE - read_position) + write_position) * (BYTES_PER_CH * LED_NUM));
+            }
+
+            // Read the FIFO sample
+            _i2cbus.write(PPG_ADDR, REG_FIFO_DATA, 1, true);
+            _i2cbus.read(PPG_ADDR, databuffer, number_of_bytes);
+
+            // Parse the FIFO data
+            int i = 0;
+            for (i = 0; i < number_of_bytes; i++){
+                green = (databuffer[0] << 16) | (databuffer[1] << 8) | (databuffer[2]);
+                red = (databuffer[3] << 16) | (databuffer[4] << 8) | (databuffer[5]);
+                ir = (databuffer[6] << 16) | (databuffer[7] << 8) | (databuffer[8]);
+                ambient = (databuffer[9] << 16) | (databuffer[10] << 8) | (databuffer[11]);
+            }
+
+
+        }
+    }
+    return status;
+    
+}
+
+
+/*******************************************************************************/
 int MAXM86161::set_interrogation_rate(int rate)
 {
     int existing_reg_values;
@@ -211,6 +256,9 @@ int MAXM86161::set_ppg_tint(int time)
 
 }
 
+
+
+/*******************************************************************************/
 int MAXM86161::alc_on(void)
 {
     int existing_reg_values;
@@ -314,6 +362,9 @@ int MAXM86161::new_value_read_off(void)
     return status;
 }
 
+
+
+/*******************************************************************************/
 // Function to read from a registry
 int MAXM86161::_read_from_reg(int address, int &data){
     char cmd[16];

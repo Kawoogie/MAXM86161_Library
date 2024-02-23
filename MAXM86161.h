@@ -63,6 +63,8 @@ class MAXM86161 {
     int start(void);
     /** @brief Stop collecting data samples */
     int stop(void);
+    /** @brief Read data from the sensor */
+    int read(int &red, int &green, int &ir);
 
     // Configuration adjustments
     /** @brief Set the rate of the PPG sensor */
@@ -120,6 +122,12 @@ class MAXM86161 {
 
 // Part ID of the MAXM86161
 #define PPG_PART_ID 0x36
+
+// Constants for reading data
+#define BYTES_PER_CH 3
+#define LED_NUM 4 // 3 LEDs plus the ambient sample
+#define FIFO_SIZE 128
+
 
 // Bit positions.
 #define POS_DATA_RDY_EN 6
