@@ -383,3 +383,11 @@ int MAXM86161::_set_multiple_bits(int current_bits, int mask, int new_value, int
     current_bits = (current_bits & mask) | (new_value << position);
     return current_bits;
 }
+
+int MAXM86161::_clear_interrupt(void)
+{
+    int status;
+    int value;
+    status = _read_from_reg(REG_IRQ_STATUS1, value);
+    return status;
+}

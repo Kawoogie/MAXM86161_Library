@@ -93,7 +93,7 @@ class MAXM86161 {
     int new_value_read_on(void);
     /** @brief Stop the interrupt from triggering with new values in FIFO */ 
     int new_value_read_off(void);
-    
+
     // void read_fifo(int* red, int* green, int* ir);
     // char read_package_temp();
 
@@ -110,6 +110,7 @@ class MAXM86161 {
     int _set_one_bit(int current_bits, int position);
     int _clear_one_bit(int current_bits, int position);
     int _set_multiple_bits(int current_bits, int mask, int new_value, int position);
+    int _clear_interrupt(void);
 
 };
 
