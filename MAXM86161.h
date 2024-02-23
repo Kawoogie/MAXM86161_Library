@@ -73,9 +73,6 @@ class MAXM86161 {
 
 
     private:
-    DigitalInOut mfio;
-    DigitalInOut rst;
-    InterruptIn irq_pin;
     I2C & _i2cbus;
 
     // void _set_led_sequence(char sequence);
