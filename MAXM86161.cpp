@@ -174,21 +174,21 @@ int MAXM86161::set_all_led_current(int current)
 }
 
 
-int MAXM86161::set_led1_current(int current);
+int MAXM86161::set_led1_current(int current)
 {
     int status;
     status = _write_to_reg(REG_LED1_PA, current);
     return status;
 }
 
-int MAXM86161::set_led2_current(int current);
+int MAXM86161::set_led2_current(int current)
 {
     int status;
     status = _write_to_reg(REG_LED2_PA, current);
     return status;
 }
 
-int MAXM86161::set_led3_current(int current);
+int MAXM86161::set_led3_current(int current)
 {
     int status;
     status = _write_to_reg(REG_LED3_PA, current);
