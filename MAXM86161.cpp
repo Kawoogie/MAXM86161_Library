@@ -195,6 +195,21 @@ int MAXM86161::set_led3_current(int current)
     return status;
 }
 
+int MAXM86161::set_ppg_tint(int time)
+{
+    int existing_reg_values;
+    int status;
+
+    // Get value of register to avoid overwriting sample average value
+    _read_from_reg(REG_PPG_CONFIG1, existing_reg_values);
+
+    existing_reg_values = (existing_reg_values & MASK_PPG_TINT_WRITE) | (time << POS_PPG_TINT);
+
+    status = _write_to_reg(REG_PPG_CONFIG1, existing_reg_values);
+    return status;
+
+}
+
 int MAXM86161::alc_on(void)
 {
     int existing_reg_values;

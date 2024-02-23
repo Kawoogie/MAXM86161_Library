@@ -57,13 +57,14 @@ class MAXM86161 {
 
     /** @brief Destructor */
     ~MAXM86161(void);
-
     /** @brief Initialization of the object */
     int init(void);
     /** @brief Start collecting data samples */
     int start(void);
     /** @brief Stop collecting data samples */
     int stop(void);
+
+    // Configuration adjustments
     /** @brief Set the rate of the PPG sensor */
     int set_interrogation_rate(int rate);
     /** @brief Set the number of samples to average */
@@ -76,12 +77,15 @@ class MAXM86161 {
     int set_led2_current(int current);
     /** @brief Set the LED current for LED3 */   
     int set_led3_current(int current);
+    /** @brief Set the integration time for the photodiode */   
+    int set_ppg_tint(int time);
 
     // Setting adjustments
     int alc_on(void);
     int alc_off(void);
     int picket_on(void);
     int picket_off(void);
+
 
     // void read_fifo(int* red, int* green, int* ir);
     // void set_led_current(char brightness);
@@ -121,13 +125,18 @@ class MAXM86161 {
 #define POS_START_STOP  1  
 
 #define POS_ALC_DIS  7
+#define POS_PPG_TINT 0
+
 #define POS_PICKET_DIS  7
+
 #define POS_PPG_SR 3
 #define POS_SMP_AVG 0
+
 
 // Bit masks.
 #define MASK_SMP_AVE 0b00000111  //Register 0x12
 #define MASK_PPG_SR 0b11111000  // Register 0x12
+#define MASK_PPG_TINT_WRITE 0b11111100  // Register 0x11
 /*******************************************************************************
  ************************** Maxm86161 I2C Registers *******************************
  ******************************************************************************/
