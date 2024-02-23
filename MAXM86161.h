@@ -57,6 +57,14 @@ class MAXM86161 {
     int init(void);
     int start(void);
     int stop(void);
+
+
+    // Setting adjustments
+    int alc_on(void);
+    int alc_off(void);
+    int picket_on(void);
+    int picket_off(void);
+
     // void read_fifo(int* red, int* green, int* ir);
     // void led_off();
     // void set_led_current(char brightness);
@@ -86,14 +94,18 @@ class MAXM86161 {
 
 
 
-// Define the I2C address of the PPG sensor
+// I2C address of the PPG sensor
 #define PPG_ADDR 0xC4
+
+// Part ID of the MAXM86161
+#define PPG_PART_ID 0x36
 
 
 // Bit positions.
 #define POS_START_STOP  1  
 
-
+#define POS_ALC_DIS  7
+#define POS_PICKET_DIS  7
 /*******************************************************************************
  ************************** Maxm86161 I2C Registers *******************************
  ******************************************************************************/

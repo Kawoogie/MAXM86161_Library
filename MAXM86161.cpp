@@ -85,41 +85,116 @@ int MAXM86161::init(void)
     _write_to_reg(REG_SYSTEM_CONTROL, 0b00001110);
 
     // Read device ID, if it matches the value for MAXM86161, return 0, otherwise return 1.
+    _write_to_reg(REG_PART_ID, read_value);
 
-    // TODO: Write a function to test if the sensor can be communicated with
-    return 0;
+    if(read_value == PPG_PART_ID){
+        return 0;
+    }
+
+    else{
+        return 1;
+    }
 }
 
 int MAXM86161::start(void)
 {
     int existing_reg_values;
+    int status;
     // Get value of register
     _read_from_reg(REG_SYSTEM_CONTROL, existing_reg_values);
 
     // Clear the bit to start the device
-    // existing_reg_values = existing_reg_values & ~(1 << POS_START_STOP); 
     existing_reg_values = _clear_one_bit(existing_reg_values, POS_START_STOP);
 
     // Write to the register to start the device
-    _write_to_reg(REG_SYSTEM_CONTROL, existing_reg_values);
+    status = _write_to_reg(REG_SYSTEM_CONTROL, existing_reg_values);
 
-    return 0;
+    return status;
 }
 
 int MAXM86161::stop(void)
 {
     int existing_reg_values;
+    int status;
 
     // Get value of register
     _read_from_reg(REG_SYSTEM_CONTROL, existing_reg_values);
 
     // Set the bit to stop the device
-    // existing_reg_values = existing_reg_values | 1 << POS_START_STOP;
     existing_reg_values = _set_one_bit(existing_reg_values, POS_START_STOP); 
     
     // Send the Shutdown command to the device
-    _write_to_reg(REG_SYSTEM_CONTROL, existing_reg_values);
-    return 0;
+    status = _write_to_reg(REG_SYSTEM_CONTROL, existing_reg_values);
+    return status;
+}
+
+int MAXM86161::alc_on(void)
+{
+    int existing_reg_values;
+    int status;
+
+    // Get value of register
+    _read_from_reg(REG_PPG_CONFIG1, existing_reg_values);
+
+    // Set the bit to stop the device
+    existing_reg_values = _clear_one_bit(REG_PPG_CONFIG1, POS_ALC_DIS); 
+    
+    // Send the Shutdown command to the device
+    status = _write_to_reg(REG_PPG_CONFIG1, existing_reg_values);
+ 
+    return status;
+}
+
+int MAXM86161::alc_off(void)
+{
+    int existing_reg_values;
+    int status;
+
+    // Get value of register
+    _read_from_reg(REG_PPG_CONFIG1, existing_reg_values);
+
+    // Set the bit to stop the device
+    existing_reg_values = _set_one_bit(REG_PPG_CONFIG1, POS_ALC_DIS); 
+    
+    // Send the Shutdown command to the device
+    status = _write_to_reg(REG_PPG_CONFIG1, existing_reg_values);
+ 
+    return status;
+}
+
+
+int MAXM86161::picket_off(void)
+{
+    int existing_reg_values;
+    int status;
+
+    // Get value of register
+    _read_from_reg(REG_PICKET_FENCE, existing_reg_values);
+
+    // Set the bit to stop the device
+    existing_reg_values = _clear_one_bit(REG_PICKET_FENCE, POS_PICKET_DIS); 
+    
+    // Send the Shutdown command to the device
+    status = _write_to_reg(REG_PICKET_FENCE, existing_reg_values);
+ 
+    return status;
+}
+
+int MAXM86161::picket_on(void)
+{
+    int existing_reg_values;
+    int status;
+
+    // Get value of register
+    _read_from_reg(REG_PICKET_FENCE, existing_reg_values);
+
+    // Set the bit to stop the device
+    existing_reg_values = _set_one_bit(REG_PICKET_FENCE, POS_PICKET_DIS); 
+    
+    // Send the Shutdown command to the device
+    status = _write_to_reg(REG_PICKET_FENCE, existing_reg_values);
+ 
+    return status;
 }
 
 // Function to read from a registry
