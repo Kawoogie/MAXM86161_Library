@@ -47,11 +47,9 @@
 class MAXM86161 {
     public:
     /** @brief Constructor
-     * @param i2cbus bus for communication via I2C
-     * @param MFIO control pin for the MAX32664
-     * @param RST reset pin to control the MAX32664
+     * @param i2c Pointer for bus for communication via I2C
     */
-    MAXM86161(I2C &i2c, PinName MFIO = P5_4, PinName RST = P5_6);
+    MAXM86161(I2C &i2c);
 
     /** @brief Destructor */
     ~MAXM86161(void);
@@ -78,7 +76,7 @@ class MAXM86161 {
     DigitalInOut mfio;
     DigitalInOut rst;
     InterruptIn irq_pin;
-    I2C & i2cbus;
+    I2C & _i2cbus;
 
     void _set_led_sequence(char sequence);
 
