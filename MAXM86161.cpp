@@ -152,7 +152,8 @@ int MAXM86161::_write_to_reg(int address, int value) {
     // wait_us(300);
     _i2cbus.read(PPG_ADDR, rsp, 1);
     // wait_us(300);
-    // serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);}
+    // serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);
+    }
     return status;
 }
 
