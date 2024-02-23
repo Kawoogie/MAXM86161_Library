@@ -142,6 +142,20 @@ int MAXM86161::set_interrogation_rate(int rate)
     return 0;
 }
 
+int MAXM86161::set_sample_averaging(int average)
+{
+    int existing_reg_values;
+    int status;
+
+    // Get value of register to avoid overwriting sample average value
+    _read_from_reg(REG_PPG_CONFIG2, existing_reg_values);
+
+    existing_reg_values = (existing_reg_values & MASK_PPG_SR) | (average << POS_SMP_AVG);
+
+    status = _write_to_reg(REG_PPG_CONFIG2, existing_reg_values);
+    return 0;
+}
+
 int MAXM86161::alc_on(void)
 {
     int existing_reg_values;

@@ -58,11 +58,16 @@ class MAXM86161 {
     /** @brief Destructor */
     ~MAXM86161(void);
 
+    /** @brief Initialization of the object */
     int init(void);
+    /** @brief Start collecting data samples */
     int start(void);
+    /** @brief Stop collecting data samples */
     int stop(void);
-
+    /** @brief Set the rate of the PPG sensor */
     int set_interrogation_rate(int rate);
+    /** @brief Set the number of samples to average */
+    int set_sample_averaging(int average);
 
     // Setting adjustments
     int alc_on(void);
@@ -111,9 +116,11 @@ class MAXM86161 {
 #define POS_ALC_DIS  7
 #define POS_PICKET_DIS  7
 #define POS_PPG_SR 3
+#define POS_SMP_AVG 0
 
 // Bit masks.
-#define MASK_SMP_AVE 0b00000111
+#define MASK_SMP_AVE 0b00000111  //Register 0x12
+#define MASK_PPG_SR 0b11111000  // Register 0x12
 /*******************************************************************************
  ************************** Maxm86161 I2C Registers *******************************
  ******************************************************************************/
