@@ -81,7 +81,7 @@ class MAXM86161 {
     // void _set_led_sequence(char sequence);
 
     int _read_from_reg(int address, int* data);
-    int _write_to_reg(int address, int* value);
+    int _write_to_reg(int address, int value);
 
 };
 

@@ -135,7 +135,7 @@ int MAXM86161::_read_from_reg(int address, int* data){
 
 // Function to write to a registry
 // TODO Check about mfio -> might not need it.
-int MAXM86161::_write_to_reg(int address, int* value) {
+int MAXM86161::_write_to_reg(int address, int value) {
     char cmd[16];
     char rsp[256];
     int status;
