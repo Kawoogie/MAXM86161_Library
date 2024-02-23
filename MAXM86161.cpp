@@ -5,7 +5,7 @@
 /*****************************************************************************/
 /*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*/
 MAXM86161::MAXM86161(I2C &i2c):
-_i2cbus = i2c
+_i2cbus(i2c)
 {
     // Empty block
 }
@@ -21,7 +21,7 @@ MAXM86161::~MAXM86161(void)
 // take data
 int MAXM86161::init(void)
 {
-    char read_value;
+    int read_value;
     // Use function to do software reset
     _write_to_reg(REG_SYSTEM_CONTROL, 0x09);
 
