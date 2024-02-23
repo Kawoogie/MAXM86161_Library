@@ -58,9 +58,6 @@ int MAXM86161::init(void)
 
     // Set LED current
     set_all_led_current(0x14);
-    // _write_to_reg(REG_LED1_PA, 0x14);
-    // _write_to_reg(REG_LED2_PA, 0x14);
-    // _write_to_reg(REG_LED3_PA, 0x14);
 
     // Enable Low Power Mode
     _write_to_reg(REG_SYSTEM_CONTROL, 0xC);
@@ -78,12 +75,11 @@ int MAXM86161::init(void)
     _write_to_reg(REG_IRQ_ENABLE1, 0b01000000);
 
     // Set LED exposure to timeslots
-    _write_to_reg(REG_LED_SEQ1, 0x12); //LED2 to time slot 1 and LED3 to time slot 2
+    _write_to_reg(REG_LED_SEQ1, 0x12);
     _write_to_reg(REG_LED_SEQ2, 0x93);
     _write_to_reg(REG_LED_SEQ3, 0x00);
 
     // Shutdown at the end and wait for signal to start
-    // _write_to_reg(REG_SYSTEM_CONTROL, 0b00001110);
     stop();
 
     // Read device ID, if it matches the value for MAXM86161, return 0, otherwise return 1.
@@ -138,7 +134,7 @@ int MAXM86161::set_interrogation_rate(int rate)
     // Get value of register to avoid overwriting sample average value
     _read_from_reg(REG_PPG_CONFIG2, existing_reg_values);
 
-    // existing_reg_values = (existing_reg_values & MASK_SMP_AVE) | (rate << POS_PPG_SR);
+    // Set the appropriate bits, while leaving the others.
     existing_reg_values = _set_multiple_bits(existing_reg_values, MASK_SMP_AVE, rate, POS_PPG_SR);
 
     status = _write_to_reg(REG_PPG_CONFIG2, existing_reg_values);
@@ -153,7 +149,7 @@ int MAXM86161::set_sample_averaging(int average)
     // Get value of register to avoid overwriting sample average value
     _read_from_reg(REG_PPG_CONFIG2, existing_reg_values);
 
-    // existing_reg_values = (existing_reg_values & MASK_PPG_SR) | (average << POS_SMP_AVG);
+    // Set the appropriate bits, while leaving the others.
     existing_reg_values = _set_multiple_bits(existing_reg_values, MASK_PPG_SR, average, POS_SMP_AVG);
 
     status = _write_to_reg(REG_PPG_CONFIG2, existing_reg_values);
@@ -207,7 +203,7 @@ int MAXM86161::set_ppg_tint(int time)
     // Get value of register to avoid overwriting sample average value
     _read_from_reg(REG_PPG_CONFIG1, existing_reg_values);
 
-    // existing_reg_values = (existing_reg_values & MASK_PPG_TINT_WRITE) | (time << POS_PPG_TINT);
+    // Set the appropriate bits, while leaving the others.
     existing_reg_values = _set_multiple_bits(existing_reg_values, MASK_PPG_TINT_WRITE, time, POS_PPG_TINT);
 
     status = _write_to_reg(REG_PPG_CONFIG1, existing_reg_values);
@@ -354,14 +350,7 @@ int MAXM86161::_write_to_reg(int address, int value) {
         // serial_pc.printf("write error %#x\n", address);
         }
     else {
-    // mfio = 1; thread_sleep_for(2); mfio = 0; wait_us(300);
-    // ppg_i2c.read(SH_ADDR, rsp, 1);
-    // mfio = 1; thread_sleep_for(2); mfio = 0; wait_us(300);
-
-    // wait_us(300);
-    _i2cbus.read(PPG_ADDR, rsp, 1);
-    // wait_us(300);
-    // serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);
+        _i2cbus.read(PPG_ADDR, rsp, 1);
     }
     return status;
 }
