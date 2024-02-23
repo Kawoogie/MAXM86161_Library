@@ -68,6 +68,14 @@ class MAXM86161 {
     int set_interrogation_rate(int rate);
     /** @brief Set the number of samples to average */
     int set_sample_averaging(int average);
+    /** @brief Set the LED current for all LEDs */
+    int set_all_led_current(int current);
+    /** @brief Set the LED current for LED1 */   
+    int set_led1_current(int current);
+    /** @brief Set the LED current for LED2 */   
+    int set_led2_current(int current);
+    /** @brief Set the LED current for LED3 */   
+    int set_led3_current(int current);
 
     // Setting adjustments
     int alc_on(void);
@@ -80,7 +88,6 @@ class MAXM86161 {
     // void set_led_red_current(char brightness);
     // void set_led_green_current(char brightness);
     // void set_led_ir_current(char brightness);
-    // void set_sample_rate(int rate);
     // char read_package_temp();
 
     // Functions not yet working

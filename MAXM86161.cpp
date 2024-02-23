@@ -139,7 +139,7 @@ int MAXM86161::set_interrogation_rate(int rate)
     existing_reg_values = (existing_reg_values & MASK_SMP_AVE) | (rate << POS_PPG_SR);
 
     status = _write_to_reg(REG_PPG_CONFIG2, existing_reg_values);
-    return 0;
+    return status;
 }
 
 int MAXM86161::set_sample_averaging(int average)
@@ -153,7 +153,46 @@ int MAXM86161::set_sample_averaging(int average)
     existing_reg_values = (existing_reg_values & MASK_PPG_SR) | (average << POS_SMP_AVG);
 
     status = _write_to_reg(REG_PPG_CONFIG2, existing_reg_values);
-    return 0;
+    return status;
+}
+
+int MAXM86161::set_all_led_current(int current)
+{
+    int status_1;
+    int status_2;
+    int status_3;
+    int status_total;
+
+    // Set each LED current
+    status_1 = set_led1_current(current);
+    status_2 = set_led2_current(current);
+    status_3 = set_led3_current(current);
+    // Return the sum of the status values.
+    // Will be zero for sucessful writing of LED currents.
+    status_total = status_1 + status_2 + status_3;
+    return status_total;
+}
+
+
+int MAXM86161::set_led1_current(int current);
+{
+    int status;
+    status = _write_to_reg(REG_LED1_PA, current);
+    return status;
+}
+
+int MAXM86161::set_led2_current(int current);
+{
+    int status;
+    status = _write_to_reg(REG_LED2_PA, current);
+    return status;
+}
+
+int MAXM86161::set_led3_current(int current);
+{
+    int status;
+    status = _write_to_reg(REG_LED3_PA, current);
+    return status;
 }
 
 int MAXM86161::alc_on(void)
