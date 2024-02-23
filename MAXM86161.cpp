@@ -57,9 +57,10 @@ int MAXM86161::init(void)
     _write_to_reg(REG_LED_RANGE1, 0x3F);
 
     // Set LED current
-    _write_to_reg(REG_LED1_PA, 0x14);
-    _write_to_reg(REG_LED2_PA, 0x14);
-    _write_to_reg(REG_LED3_PA, 0x14);
+    set_all_led_current(0x14);
+    // _write_to_reg(REG_LED1_PA, 0x14);
+    // _write_to_reg(REG_LED2_PA, 0x14);
+    // _write_to_reg(REG_LED3_PA, 0x14);
 
     // Enable Low Power Mode
     _write_to_reg(REG_SYSTEM_CONTROL, 0xC);
@@ -73,16 +74,17 @@ int MAXM86161::init(void)
     // Enable FIFO rollover when full
     _write_to_reg(REG_FIFO_CONFIG2, 0x2);
 
-    // Enable FIFO interrupt
-    _write_to_reg(REG_IRQ_ENABLE1, 0x80);
+    // Enable interrupt when new sample detected
+    _write_to_reg(REG_IRQ_ENABLE1, 0b01000000);
 
     // Set LED exposure to timeslots
-    _write_to_reg(REG_LED_SEQ1, 0x43); //LED2 to time slot 1 and LED3 to time slot 2
-    _write_to_reg(REG_LED_SEQ2, 0x00);
+    _write_to_reg(REG_LED_SEQ1, 0x12); //LED2 to time slot 1 and LED3 to time slot 2
+    _write_to_reg(REG_LED_SEQ2, 0x93);
     _write_to_reg(REG_LED_SEQ3, 0x00);
 
     // Shutdown at the end and wait for signal to start
-    _write_to_reg(REG_SYSTEM_CONTROL, 0b00001110);
+    // _write_to_reg(REG_SYSTEM_CONTROL, 0b00001110);
+    stop();
 
     // Read device ID, if it matches the value for MAXM86161, return 0, otherwise return 1.
     _write_to_reg(REG_PART_ID, read_value);
@@ -278,6 +280,40 @@ int MAXM86161::picket_on(void)
     
     // Send the Shutdown command to the device
     status = _write_to_reg(REG_PICKET_FENCE, existing_reg_values);
+ 
+    return status;
+}
+
+int MAXM86161::new_value_read_on(void)
+{
+    int existing_reg_values;
+    int status;
+
+    // Get value of register
+    _read_from_reg(REG_IRQ_ENABLE1, existing_reg_values);
+
+    // Set the bit to stop the device
+    existing_reg_values = _set_one_bit(REG_IRQ_ENABLE1, POS_DATA_RDY_EN); 
+    
+    // Send the Shutdown command to the device
+    status = _write_to_reg(REG_IRQ_ENABLE1, existing_reg_values);
+ 
+    return status;
+}
+
+int MAXM86161::new_value_read_off(void)
+{
+    int existing_reg_values;
+    int status;
+
+    // Get value of register
+    _read_from_reg(REG_IRQ_ENABLE1, existing_reg_values);
+
+    // Set the bit to stop the device
+    existing_reg_values = _clear_one_bit(REG_IRQ_ENABLE1, POS_DATA_RDY_EN); 
+    
+    // Send the Shutdown command to the device
+    status = _write_to_reg(REG_IRQ_ENABLE1, existing_reg_values);
  
     return status;
 }

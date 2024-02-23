@@ -89,8 +89,11 @@ class MAXM86161 {
     int picket_on(void);
     /** @brief Set the picket fence detection off */ 
     int picket_off(void);
-
-
+    /** @brief Set the interrupt to trigger with new values in FIFO */ 
+    int new_value_read_on(void);
+    /** @brief Stop the interrupt from triggering with new values in FIFO */ 
+    int new_value_read_off(void);
+    
     // void read_fifo(int* red, int* green, int* ir);
     // char read_package_temp();
 
@@ -118,6 +121,8 @@ class MAXM86161 {
 #define PPG_PART_ID 0x36
 
 // Bit positions.
+#define POS_DATA_RDY_EN 6
+
 #define POS_START_STOP  1  
 
 #define POS_ALC_DIS  7
@@ -127,6 +132,7 @@ class MAXM86161 {
 
 #define POS_PPG_SR 3
 #define POS_SMP_AVG 0
+
 
 
 /*******************************************************************************/
