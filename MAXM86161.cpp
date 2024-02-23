@@ -116,7 +116,7 @@ int MAXM86161::_read_from_reg(int address, int* data){
     char rsp[256];
     int status;
     cmd[0] = address;
-    status = _i2cbus.write(SH_ADDR, cmd, 1, true);
+    status = _i2cbus.write(PPG_ADDR, cmd, 1, true);
     if(status !=0) {
         // serial_pc.printf("Failed to write register address %#X during read.\n", address);
         return status;
