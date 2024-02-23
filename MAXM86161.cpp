@@ -111,7 +111,7 @@ int MAXM86161::stop(void)
 }
 
 // Function to read from a registry
-int MAXM86161::_read_from_reg(int address, int* data){
+int MAXM86161::_read_from_reg(int address, int &data){
     char cmd[16];
     char rsp[256];
     int status;
@@ -128,7 +128,7 @@ int MAXM86161::_read_from_reg(int address, int* data){
         return status;
         }
 
-    data = &rsp[0];
+    data = rsp[0];
     // serial_pc.printf("\n\r %#X Status: %#X\n\r", address, rsp[0]);
     return status;
 }
