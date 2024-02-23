@@ -97,7 +97,8 @@ int MAXM86161::start(void)
     _read_from_reg(REG_SYSTEM_CONTROL, existing_reg_values);
 
     // Clear the bit to start the device
-    existing_reg_values = existing_reg_values & ~(1 << POS_START_STOP); 
+    // existing_reg_values = existing_reg_values & ~(1 << POS_START_STOP); 
+    existing_reg_values = _clear_one_bit(existing_reg_values, POS_START_STOP);
 
     // Write to the register to start the device
     _write_to_reg(REG_SYSTEM_CONTROL, existing_reg_values);
@@ -113,7 +114,8 @@ int MAXM86161::stop(void)
     _read_from_reg(REG_SYSTEM_CONTROL, existing_reg_values);
 
     // Set the bit to stop the device
-    existing_reg_values = existing_reg_values | 1 << POS_START_STOP; 
+    // existing_reg_values = existing_reg_values | 1 << POS_START_STOP;
+    existing_reg_values = _set_one_bit(existing_reg_values, POS_START_STOP); 
     
     // Send the Shutdown command to the device
     _write_to_reg(REG_SYSTEM_CONTROL, existing_reg_values);
@@ -168,8 +170,17 @@ int MAXM86161::_write_to_reg(int address, int value) {
     return status;
 }
 
+int MAXM86161::_set_one_bit(int current_bits, int position)
+{
+    current_bits = current_bits | 1 << position;
+    return  current_bits;
+}
 
-
+int MAXM86161::_clear_one_bit(int current_bits, int position)
+{
+    current_bits = current_bits & ~(1 << position);
+    return current_bits;
+}
 
 /*
 // Online C++ compiler to run C++ program online
