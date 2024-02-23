@@ -92,21 +92,31 @@ int MAXM86161::init(void)
 
 int MAXM86161::start(void)
 {
-    
-    // Shutdown at the end and wait for signal to start
-    // TODO: Get value of register
+    int existing_reg_values;
+    // Get value of register
+    _read_from_reg(REG_SYSTEM_CONTROL, existing_reg_values);
 
-    // Apply mask
+    // Clear the bit to start the device
+    existing_reg_values = existing_reg_values & ~(1 << POS_START_STOP); 
 
-    // Write to the register
-    _write_to_reg(REG_SYSTEM_CONTROL, 0b00001100);
+    // Write to the register to start the device
+    _write_to_reg(REG_SYSTEM_CONTROL, existing_reg_values);
+
     return 0;
 }
 
 int MAXM86161::stop(void)
 {
-    // Shutdown at the end and wait for signal to start
-    _write_to_reg(REG_SYSTEM_CONTROL, 0b00001110);
+    int existing_reg_values;
+
+    // Get value of register
+    _read_from_reg(REG_SYSTEM_CONTROL, existing_reg_values);
+
+    // Set the bit to stop the device
+    existing_reg_values = existing_reg_values | 1 << POS_START_STOP; 
+    
+    // Send the Shutdown command to the device
+    _write_to_reg(REG_SYSTEM_CONTROL, existing_reg_values);
     return 0;
 }
 
@@ -125,6 +135,7 @@ int MAXM86161::_read_from_reg(int address, int &data){
     status = _i2cbus.read(PPG_ADDR, rsp, 1);
     if(status !=0){        
         // serial_pc.printf("Failed to read register %#X value during read.\n", address);
+
         return status;
         }
 
