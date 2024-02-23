@@ -40,6 +40,10 @@
  * @endcode
  * 
 */
+// #ifdef __MAXM86161_H_
+// #define __MAXM86161_H_
+
+
 #include "mbed.h"
 #include <stdint.h>
 
@@ -58,6 +62,7 @@ class MAXM86161 {
     int start(void);
     int stop(void);
 
+    int set_interrogation_rate(int rate);
 
     // Setting adjustments
     int alc_on(void);
@@ -66,7 +71,6 @@ class MAXM86161 {
     int picket_off(void);
 
     // void read_fifo(int* red, int* green, int* ir);
-    // void led_off();
     // void set_led_current(char brightness);
     // void set_led_red_current(char brightness);
     // void set_led_green_current(char brightness);
@@ -106,6 +110,10 @@ class MAXM86161 {
 
 #define POS_ALC_DIS  7
 #define POS_PICKET_DIS  7
+#define POS_PPG_SR 3
+
+// Bit masks.
+#define MASK_SMP_AVE 0b00000111
 /*******************************************************************************
  ************************** Maxm86161 I2C Registers *******************************
  ******************************************************************************/
@@ -183,3 +191,18 @@ class MAXM86161 {
 #define REG_FIFO_DATA_MASK  0x07FFFF
 #define REG_FIFO_RES        19
 #define REG_FIFO_TAG_MASK   0x1F
+
+
+/*******************************************************************************
+ ************************** Maxm86161 Value Enum *******************************
+ ******************************************************************************/
+
+// enum sample_rates {
+//     24.995 = 0, 50.027 = 1, 84.021 = 2, 99.902 = 3, 199.805 = 4, 399.610 = 5,
+//                     8.0 = 0x0A, 16.0 = 0x0B, 32.0 = 0x0C, 64.0 = 0x0D, 128.0 = 0x0E,
+//                     256.0 = 0x0F, 512.0 = 0x10, 1024.0 = 0x11, 2048.0 = 0x12, 4096.0 = 0x13,
+//                     8 = 0x0A, 16 = 0x0B, 32 = 0x0C, 64 = 0x0D, 128 = 0x0E,
+//                     256 = 0x0F, 512 = 0x10, 1024 = 0x11, 2048 = 0x12, 4096 = 0x13};
+
+
+// #endif /* __MAXM86161_H_*/
