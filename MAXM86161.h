@@ -64,7 +64,7 @@ class MAXM86161 {
     /** @brief Stop collecting data samples */
     int stop(void);
     /** @brief Read data from the sensor */
-    int read(int &red, int &green, int &ir);
+    int read(int &red, int &green, int &ir, int&ambient);
 
     // Configuration adjustments
     /** @brief Set the rate of the PPG sensor */
@@ -149,6 +149,8 @@ class MAXM86161 {
 #define MASK_SMP_AVE 0b00000111  //Register 0x12
 #define MASK_PPG_SR 0b11111000  // Register 0x12
 #define MASK_PPG_TINT_WRITE 0b11111100  // Register 0x11
+
+#define MASK_PPG_LABEL 0x7FFFF;
 
 
 /*******************************************************************************

@@ -126,13 +126,17 @@ int MAXM86161::stop(void)
     return status;
 }
 
-int MAM86161::read(int &red, int &green, int &ir)
+int MAM86161::read(int &red, int &green, int &ir. int&ambient)
 {
     int status;
     int read_position;
     int write_position;
     int number_of_bytes;
     int databuffer[128*BYTES_PER_CH];
+    int led1[32];
+    int led2[32];
+    int led3[32];
+    int led4[32];
     int ambient;
 
     // int number_of_bytes = 0;
@@ -150,14 +154,19 @@ int MAM86161::read(int &red, int &green, int &ir)
 
             // Read the FIFO sample
             _i2cbus.write(PPG_ADDR, REG_FIFO_DATA, 1, true);
-            _i2cbus.read(PPG_ADDR, databuffer, number_of_bytes);
+            status = _i2cbus.read(PPG_ADDR, databuffer, number_of_bytes);
 
             // Parse the FIFO data
-            green = (databuffer[0] << 16) | (databuffer[1] << 8) | (databuffer[2]);
-            red = (databuffer[3] << 16) | (databuffer[4] << 8) | (databuffer[5]);
-            ir = (databuffer[6] << 16) | (databuffer[7] << 8) | (databuffer[8]);
-            ambient = (databuffer[9] << 16) | (databuffer[10] << 8) | (databuffer[11]);
+            led1 = (databuffer[0] << 16) | (databuffer[1] << 8) | (databuffer[2]) & MASK_PPG_LABEL;
+            led2 = (databuffer[3] << 16) | (databuffer[4] << 8) | (databuffer[5]) & MASK_PPG_LABEL;
+            led3 = (databuffer[6] << 16) | (databuffer[7] << 8) | (databuffer[8]) & MASK_PPG_LABEL;
+            led4 = (databuffer[9] << 16) | (databuffer[10] << 8) | (databuffer[11]) & MASK_PPG_LABEL;
         
+            red = led1;
+            green - led2;
+            ir = led3;
+            ambient = led4;
+
 
 
         }
