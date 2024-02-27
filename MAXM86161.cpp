@@ -163,7 +163,7 @@ int MAXM86161::read(int &red, int &green, int &ir, int&ambient)
             led4 = (databuffer[9] << 16) | (databuffer[10] << 8) | (databuffer[11]) & MASK_PPG_LABEL;
         
             red = led1;
-            green - led2;
+            green = led2;
             ir = led3;
             ambient = led4;
 
