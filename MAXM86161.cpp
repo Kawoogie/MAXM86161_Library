@@ -137,6 +137,7 @@ int MAXM86161::read(int &red, int &green, int &ir, int&ambient)
     int led2;
     int led3;
     int led4;
+    char cmd[16];
 
 
     // int number_of_bytes = 0;
@@ -153,7 +154,8 @@ int MAXM86161::read(int &red, int &green, int &ir, int&ambient)
             }
 
             // Read the FIFO sample
-            _i2cbus.write(PPG_ADDR, REG_FIFO_DATA, 1, true);
+            cmd[0] = REG_FIFO_DATA;
+            _i2cbus.write(PPG_ADDR, cmd, 1, true);
             status = _i2cbus.read(PPG_ADDR, databuffer, number_of_bytes);
 
             // Parse the FIFO data
