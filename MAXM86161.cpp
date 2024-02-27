@@ -85,6 +85,8 @@ int MAXM86161::init(void)
     // Read device ID, if it matches the value for MAXM86161, return 0, otherwise return 1.
     _write_to_reg(REG_PART_ID, read_value);
 
+    _clear_interrupt();
+
     if(read_value == PPG_PART_ID){
         return 0;
     }
