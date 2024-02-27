@@ -137,7 +137,7 @@ int MAXM86161::read(int &red, int &green, int &ir, int&ambient)
     int led2;
     int led3;
     int led4;
-    int ambient;
+
 
     // int number_of_bytes = 0;
 
