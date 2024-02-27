@@ -173,6 +173,7 @@ int MAXM86161::read(int &red, int &green, int &ir, int&ambient)
 
         }
     }
+    _clear_interrupt();
     return status;
     
 }
