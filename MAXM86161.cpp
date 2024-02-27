@@ -132,7 +132,7 @@ int MAXM86161::read(int &red, int &green, int &ir, int&ambient)
     int read_position;
     int write_position;
     int number_of_bytes;
-    int databuffer[128*BYTES_PER_CH];
+    char databuffer[128*BYTES_PER_CH];
     int led1;
     int led2;
     int led3;
