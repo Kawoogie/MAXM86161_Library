@@ -451,3 +451,48 @@ int MAXM86161::_get_data_label(int &data, int &label, char[int] &raw)
 
     return 0;
 }
+
+/*
+// Online C++ compiler to run C++ program online
+#include <iostream>
+
+#define MASK_PPG_LABEL 0x7FFFF;
+#define MASK_PPG_ID 0xF8;
+
+
+int get_data_label(int &data, int &label, int &raw1, int &raw2, int &raw3)
+{
+    int shifted_value = 0;
+
+    // Shift the data bits
+    shifted_value = (raw1 << 16) | (raw2 << 8) | raw3;
+    
+    // Apply the mask to get the data
+    data = shifted_value & MASK_PPG_LABEL;
+    
+    label = raw1 & MASK_PPG_ID;
+    label = label >> 3;
+    
+    return 0;
+}
+
+
+int main() {
+    int stream_data0;
+        int stream_data1;
+    int stream_data2;    
+    int ppg_data = 0;
+    int ppg_id = 0;
+    // Write C++ code here
+    stream_data0 = 0b00001001;
+    stream_data1 = 0b10010010;
+    stream_data2 = 0b01011000;
+    get_data_label(ppg_data, ppg_id, stream_data0, stream_data1, stream_data2);
+    
+    std::cout << "Data:" << ppg_data << " ID:" << ppg_id << "\n";
+
+    return 0;
+}
+*/
+
+
