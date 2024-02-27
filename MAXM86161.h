@@ -113,6 +113,7 @@ class MAXM86161 {
     int _clear_one_bit(int current_bits, int position);
     int _set_multiple_bits(int current_bits, int mask, int new_value, int position);
     int _clear_interrupt(void);
+    int _get_data_label(int &data, int &label, char[int] &raw);
 
 };
 
@@ -151,7 +152,7 @@ class MAXM86161 {
 #define MASK_PPG_TINT_WRITE 0b11111100  // Register 0x11
 
 #define MASK_PPG_LABEL 0x7FFFF;
-
+#define MASK_PPG_ID 0xF8;
 
 /*******************************************************************************
  ************************** Maxm86161 I2C Registers *******************************
