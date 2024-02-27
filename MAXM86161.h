@@ -113,7 +113,7 @@ class MAXM86161 {
     int _clear_one_bit(int current_bits, int position);
     int _set_multiple_bits(int current_bits, int mask, int new_value, int position);
     int _clear_interrupt(void);
-    int _get_data_label(int &data, int &label, char[int] &raw);
+    // int _get_data_label(int &data, int &label, char[int] &raw);
 
 };
 

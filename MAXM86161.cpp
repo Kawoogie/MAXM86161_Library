@@ -440,19 +440,19 @@ int MAXM86161::_clear_interrupt(void)
     return status;
 }
 
-int MAXM86161::_get_data_label(int &data, int &label, char[int] &raw)
-{
-    int shifted_value = 0;
+// int MAXM86161::_get_data_label(int &data, int &label, char[int] &raw)
+// {
+//     int shifted_value = 0;
 
-    // Shift the data bits
-    shifted_value = (raw[0] << 16) | (raw[1] << 8) | raw[2];
+//     // Shift the data bits
+//     shifted_value = (raw[0] << 16) | (raw[1] << 8) | raw[2];
     
-    // Apply the mask to get the data
-    data = shifted_value & MASK_PPG_LABEL;
-    label = raw[0] & MASK_PPG_ID;
+//     // Apply the mask to get the data
+//     data = shifted_value & MASK_PPG_LABEL;
+//     label = raw[0] & MASK_PPG_ID;
 
-    return 0;
-}
+//     return 0;
+// }
 
 /*
 // Online C++ compiler to run C++ program online
