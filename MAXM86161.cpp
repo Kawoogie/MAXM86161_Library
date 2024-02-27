@@ -126,17 +126,17 @@ int MAXM86161::stop(void)
     return status;
 }
 
-int MAM86161::read(int &red, int &green, int &ir. int&ambient)
+int MAXM86161::read(int &red, int &green, int &ir, int&ambient)
 {
     int status;
     int read_position;
     int write_position;
     int number_of_bytes;
     int databuffer[128*BYTES_PER_CH];
-    int led1[32];
-    int led2[32];
-    int led3[32];
-    int led4[32];
+    int led1;
+    int led2;
+    int led3;
+    int led4;
     int ambient;
 
     // int number_of_bytes = 0;
