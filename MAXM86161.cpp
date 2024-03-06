@@ -69,7 +69,7 @@ int MAXM86161::init(void)
     _write_to_reg(REG_FIFO_CONFIG1, 0xF);
 
     // Enable FIFO rollover when full
-    _write_to_reg(REG_FIFO_CONFIG2, 0x2);
+    _write_to_reg(REG_FIFO_CONFIG2, 0b0000'1110);
 
     // Enable interrupt when new sample detected
     _write_to_reg(REG_IRQ_ENABLE1, 0b01000000);
