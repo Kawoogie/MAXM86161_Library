@@ -72,7 +72,7 @@ int MAXM86161::init(void)
     _write_to_reg(REG_FIFO_CONFIG2, 0b0000'1110);
 
     // Enable interrupt when new sample detected
-    _write_to_reg(REG_IRQ_ENABLE1, 0b1100'0100);
+    _write_to_reg(REG_IRQ_ENABLE1, 0b0100'0100);
 
     // Set LED exposure to timeslots
     _write_to_reg(REG_LED_SEQ1, 0x12);
